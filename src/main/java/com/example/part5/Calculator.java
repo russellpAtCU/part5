@@ -82,7 +82,7 @@ public class Calculator extends Application {
             }
         };
 
-        Button[] ops = new Button[9];
+        Button[] ops = new Button[10];
 
         EventHandler<ActionEvent> dotHandler = new EventHandler<ActionEvent>() {
             @Override
@@ -120,13 +120,13 @@ public class Calculator extends Application {
         ops[7] = sqrt;
         Button clear = new Button();
         clear.setText("C");
-        ops[7] = clear;
+        ops[8] = clear;
         Button equals = new Button();
         equals.setText("=");
         equals.setOnAction(equalsHandler);
-        ops[8] = equals;
+        ops[9] = equals;
 
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 10; i++){
             if(ops[i] != equals && ops[i] != dot && ops[i] != sqrt )
                 ops[i].setOnAction(opButtonHandler);
             hBoxes[(i+2) / 2].getChildren().add(ops[i]);
