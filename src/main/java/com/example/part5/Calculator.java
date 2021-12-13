@@ -12,16 +12,16 @@ import javafx.stage.Stage;
 
 public class Calculator extends Application {
 
-    int num1;
-    int num2;
+    double num1;
+    double num2;
     String op;
-    Double ans;
+    double ans;
 
     public Calculator(){
         num1 = 0;
         num2 = 0;
         op = "";
-        ans = 0.0;
+        ans = 0;
     }
 
     public static void main(String[] args) {
@@ -53,17 +53,6 @@ public class Calculator extends Application {
             }
         };
 
-        EventHandler<ActionEvent> opButtonHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Button button = (Button) actionEvent.getSource();
-                num1 = Integer.getInteger(textField.getText());
-                op = button.getText();
-                textField.setText("");
-                System.out.println(num1);
-            }
-        };
-
         Button[] numButtons = new Button[10];
         for(int i = 0; i < 10; i++){
             numButtons[i] = new Button();
@@ -72,10 +61,39 @@ public class Calculator extends Application {
             hBoxes[(i+3) / 3].getChildren().add(numButtons[i]);
         }
 
+
+        EventHandler<ActionEvent> opButtonHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Button button = (Button) actionEvent.getSource();
+                num1 = Double.parseDouble(textField.getText());
+                op = button.getText();
+                textField.setText("");
+                System.out.println(num1);
+            }
+        };
+
+        EventHandler<ActionEvent> equalsHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                num2 = Double.parseDouble(textField.getText());
+                ans = solve(num1, num2, op);
+                textField.setText(Double.toString(ans));
+            }
+        };
+
         Button[] ops = new Button[9];
+
+        EventHandler<ActionEvent> dotHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                textField.appendText(".");
+            }
+        };
 
         Button dot = new Button();
         dot.setText(".");
+        dot.setOnAction(dotHandler);
         ops[0] = dot;
         Button plus = new Button();
         plus.setText("+");
@@ -91,28 +109,25 @@ public class Calculator extends Application {
         ops[4] = divide;
         Button neg = new Button();
         neg.setText("(-)");
+        neg.setOnAction(equalsHandler);
         ops[5] = neg;
         Button square = new Button();
         square.setText("^");
         ops[6] = square;
         Button sqrt = new Button();
         sqrt.setText("sqrt");
+        sqrt.setOnAction(equalsHandler);
         ops[7] = sqrt;
-
-        EventHandler<ActionEvent> equalsHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                num2 = Integer.getInteger(textField.getText());
-                ans = solve();
-            }
-        };
-
+        Button clear = new Button();
+        clear.setText("C");
+        ops[7] = clear;
         Button equals = new Button();
         equals.setText("=");
+        equals.setOnAction(equalsHandler);
         ops[8] = equals;
 
-        for(int i = 0; i < 8; i++){
-            if(ops[i] != equals && ops[i] != dot)
+        for(int i = 0; i < 9; i++){
+            if(ops[i] != equals && ops[i] != dot && ops[i] != sqrt )
                 ops[i].setOnAction(opButtonHandler);
             hBoxes[(i+2) / 2].getChildren().add(ops[i]);
         }
@@ -122,8 +137,32 @@ public class Calculator extends Application {
 
     }
 
-    private Double solve(){
-        return 0.0;
+    private Double solve(double num1, double num2, String op){
+        double val = 0;
+        switch (op){
+            case "+":
+                val = num1 + num2;
+                break;
+            case "-":
+                val = num1 - num2;
+                break;
+            case "*":
+                val = num1 * num2;
+                break;
+            case "/":
+                val = num1 / num2;
+                break;
+            case "(-)":
+                val = -num1;
+                break;
+            case "^":
+                val = Math.pow(num1, num2);
+                break;
+            case "sqrt":
+                val = Math.sqrt(num1);
+
+        }
+        return val;
     }
 
 }
