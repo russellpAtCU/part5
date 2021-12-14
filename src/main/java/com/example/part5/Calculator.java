@@ -138,31 +138,16 @@ public class Calculator extends Application {
     }
 
     private Double solve(double num1, double num2, String op){
-        double val = 0;
-        switch (op){
-            case "+":
-                val = num1 + num2;
-                break;
-            case "-":
-                val = num1 - num2;
-                break;
-            case "*":
-                val = num1 * num2;
-                break;
-            case "/":
-                val = num1 / num2;
-                break;
-            case "(-)":
-                val = -num1;
-                break;
-            case "^":
-                val = Math.pow(num1, num2);
-                break;
-            case "sqrt":
-                val = Math.sqrt(num1);
-
-        }
-        return val;
+        return switch (op) {
+            case "+" -> num1 + num2;
+            case "-" -> num1 - num2;
+            case "*" -> num1 * num2;
+            case "/" -> num1 / num2;
+            case "(-)" -> -num1;
+            case "^" -> Math.pow(num1, num2);
+            case "sqrt" -> Math.sqrt(num1);
+            default -> 0.0;
+        };
     }
 
 }
