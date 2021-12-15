@@ -36,7 +36,7 @@ public class Calculator extends Application {
 
         VBox root = new VBox();
         Scene scene = new Scene(root, 200, 400);
-        //scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
+        scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
         root.getStyleClass().add("vboxclass");
 
         HBox[] hBoxes = new HBox[6];
@@ -64,6 +64,7 @@ public class Calculator extends Application {
             numButtons[i] = new Button();
             numButtons[i].setText(Integer.toString((i+1)   % 10));
             numButtons[i].setOnAction(numButtonHandler);
+            numButtons[i].getStyleClass().add("buttonclass");
             hBoxes[(i+3) / 3].getChildren().add(numButtons[i]);
         }
 
