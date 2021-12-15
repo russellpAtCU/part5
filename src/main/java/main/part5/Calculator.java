@@ -35,7 +35,7 @@ public class Calculator extends Application {
     public void start(Stage stage) {
 
         VBox root = new VBox();
-        Scene scene = new Scene(root, 200, 400);
+        Scene scene = new Scene(root, 400, 600);
         scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
         root.getStyleClass().add("vboxclass");
 
@@ -48,6 +48,7 @@ public class Calculator extends Application {
 
         TextField textField = new TextField();
         textField.setEditable(false);
+        textField.getStyleClass().add("textboxclass");
         hBoxes[0].getChildren().add(textField);
 
         EventHandler<ActionEvent> numButtonHandler = new EventHandler<ActionEvent>() {
@@ -98,6 +99,29 @@ public class Calculator extends Application {
             }
         };
 
+        EventHandler<ActionEvent> negHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                textField.setText("-" + textField.getText());
+            }
+        };
+
+        EventHandler<ActionEvent> cHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                textField.setText("");
+            }
+        };
+        EventHandler<ActionEvent> ceHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                textField.setText("");
+                onSecond = false;
+
+            }
+        };
+
         Button[] ops = new Button[11];
 
         Button dot = new Button();
@@ -127,7 +151,7 @@ public class Calculator extends Application {
 
         Button neg = new Button();
         neg.setText("(-)");
-
+        neg.setOnAction(negHandler);
         ops[6] = neg;
 
         Button sqrt = new Button();
@@ -137,10 +161,12 @@ public class Calculator extends Application {
 
         Button clearEntry = new Button();
         clearEntry.setText("CE");
+        clearEntry.setOnAction(ceHandler);
         ops[8] = clearEntry;
 
         Button clear = new Button();
         clear.setText("C");
+        clear.setOnAction(cHandler);
         ops[9] = clear;
 
         Button equals = new Button();
