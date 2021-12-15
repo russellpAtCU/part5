@@ -1,20 +1,18 @@
-.vboxclass{
--fx-background-color: black;
-}
-
-.hboxclass {
-    -fx-padding: 5 5 5 5;
-    -fx-spacing: 5;
+.gridclass{
     -fx-background-color: black;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+    -fx-alignment: center;
+    -fx-padding: 20;
 }
 
 .buttonclass{
-    -fx-padding: 50 50 50 50;
     -fx-background-color: red;
     -fx-text-fill: white;
+    -fx-prefheight: 500
 }
 
 .textboxclass{
-    -fx-background-color: black;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
 }
