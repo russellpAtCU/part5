@@ -17,11 +17,14 @@ public class Calculator extends Application {
     String op;
     double ans;
 
+    boolean onSecond;
+
     public Calculator(){
         num1 = 0;
         num2 = 0;
         op = "";
         ans = 0;
+        onSecond = false;
     }
 
     public static void main(String[] args) {
@@ -33,7 +36,7 @@ public class Calculator extends Application {
 
         VBox root = new VBox();
         Scene scene = new Scene(root, 200, 400);
-        scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
+        //scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
         root.getStyleClass().add("vboxclass");
 
         HBox[] hBoxes = new HBox[6];
@@ -71,6 +74,7 @@ public class Calculator extends Application {
                 Button button = (Button) actionEvent.getSource();
                 num1 = Double.parseDouble(textField.getText());
                 op = button.getText();
+                onSecond = true;
                 textField.setText("");
                 System.out.println(num1);
             }
@@ -81,6 +85,7 @@ public class Calculator extends Application {
             public void handle(ActionEvent actionEvent) {
                 num2 = Double.parseDouble(textField.getText());
                 ans = solve(num1, num2, op);
+                onSecond = false;
                 textField.setText(Double.toString(ans));
             }
         };
