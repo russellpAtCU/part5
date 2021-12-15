@@ -37,15 +37,22 @@ public class Calculator extends Application {
     @Override
     public void start(Stage stage) {
 
-        GridPane root = new GridPane();
+        VBox root = new VBox();
         Scene scene = new Scene(root, 400, 600);
         scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
-        root.getStyleClass().add("gridclass");
+        root.getStyleClass().add("vbox");
+
+        HBox[] hBoxes = new HBox[5];
+        for(int i = 0; i < 5; i++){
+            hBoxes[i] = new HBox();
+            hBoxes[i].getStyleClass().add("hbox");
+            root.getChildren().add(hBoxes[i]);
+        }
 
         TextField textField = new TextField();
         textField.setEditable(false);
-        textField.getStyleClass().add("textboxclass");
-        root.add(textField, 0, 0, 5, 1);
+        hBoxes[0].getChildren().add(textField);
+        textField.getStyleClass().add("textbox");
 
         EventHandler<ActionEvent> numButtonHandler = new EventHandler<ActionEvent>() {
             @Override
@@ -61,8 +68,8 @@ public class Calculator extends Application {
             numButtons[i] = new Button();
             numButtons[i].setText(Integer.toString((i+1)   % 10));
             numButtons[i].setOnAction(numButtonHandler);
-            numButtons[i].getStyleClass().add("buttonclass");
-            root.add(numButtons[i], (i % 3), (i / 3)+1);
+            numButtons[i].getStyleClass().add("button");
+            hBoxes[(i) / 3 + 1].getChildren().add(numButtons[i]);
         }
 
 
@@ -172,14 +179,10 @@ public class Calculator extends Application {
         for(int i = 0; i < 11; i++){
             if(i < 5) {
                 ops[i].setOnAction(opButtonHandler);
-                root.add(ops[i], 3, i+1);
             }
-            if(i > 6)
-                root.add(ops[i], 4, i-6);
+            hBoxes[i / 3 + 1].getChildren().add(ops[i]);
             ops[i].getStyleClass().add("buttonclass");
         }
-        root.add(ops[5],1, 4 );
-        root.add(ops[6],2, 4 );
 
 
         stage.setScene(scene);
