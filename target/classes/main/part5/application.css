@@ -1,9 +1,11 @@
 .vboxclass{
-
+-fx-background-color: black;
 }
 
 .hboxclass {
-
+-fx-padding: 5 5 5 5;
+-fx-spacing: 5;
+-fx-background-color: black;
 }
 
 .buttonclass{
