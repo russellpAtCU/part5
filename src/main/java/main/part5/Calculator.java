@@ -1,4 +1,4 @@
-package com.example.part5;
+package main.part5;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -33,10 +33,13 @@ public class Calculator extends Application {
 
         VBox root = new VBox();
         Scene scene = new Scene(root, 200, 400);
+        scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
+        root.getStyleClass().add("vboxclass");
 
         HBox[] hBoxes = new HBox[6];
         for(int i = 0; i < 6; i++){
             hBoxes[i] = new HBox();
+            hBoxes[i].getStyleClass().add("hboxclass");
             root.getChildren().add(hBoxes[i]);
         }
 
@@ -82,8 +85,6 @@ public class Calculator extends Application {
             }
         };
 
-        Button[] ops = new Button[10];
-
         EventHandler<ActionEvent> dotHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -91,45 +92,61 @@ public class Calculator extends Application {
             }
         };
 
+        Button[] ops = new Button[11];
+
         Button dot = new Button();
         dot.setText(".");
         dot.setOnAction(dotHandler);
         ops[0] = dot;
+
         Button plus = new Button();
         plus.setText("+");
         ops[1] = plus;
+
         Button minus = new Button();
         minus.setText("-");
         ops[2] = minus;
+
         Button times = new Button();
         times.setText("*");
         ops[3] = times;
+
         Button divide = new Button();
         divide.setText("/");
         ops[4] = divide;
-        Button neg = new Button();
-        neg.setText("(-)");
-        neg.setOnAction(equalsHandler);
-        ops[5] = neg;
+
         Button square = new Button();
         square.setText("^");
-        ops[6] = square;
+        ops[5] = square;
+
+        Button neg = new Button();
+        neg.setText("(-)");
+
+        ops[6] = neg;
+
         Button sqrt = new Button();
         sqrt.setText("sqrt");
         sqrt.setOnAction(equalsHandler);
         ops[7] = sqrt;
+
+        Button clearEntry = new Button();
+        clearEntry.setText("CE");
+        ops[8] = clearEntry;
+
         Button clear = new Button();
         clear.setText("C");
-        ops[8] = clear;
+        ops[9] = clear;
+
         Button equals = new Button();
         equals.setText("=");
         equals.setOnAction(equalsHandler);
-        ops[9] = equals;
+        ops[10] = equals;
 
-        for(int i = 0; i < 10; i++){
-            if(ops[i] != equals && ops[i] != dot && ops[i] != sqrt )
+        for(int i = 0; i < 11; i++){
+            if(i < 5)
                 ops[i].setOnAction(opButtonHandler);
-            hBoxes[(i+2) / 2].getChildren().add(ops[i]);
+            ops[i].getStyleClass().add("buttonclass");
+            hBoxes[(i % 4)+1].getChildren().add(ops[i]);
         }
 
         stage.setScene(scene);
@@ -143,7 +160,6 @@ public class Calculator extends Application {
             case "-" -> num1 - num2;
             case "*" -> num1 * num2;
             case "/" -> num1 / num2;
-            case "(-)" -> -num1;
             case "^" -> Math.pow(num1, num2);
             case "sqrt" -> Math.sqrt(num1);
             default -> 0.0;
