@@ -1,25 +1,25 @@
 .vbox{
     -fx-background-color: black;
-    -fx-vgap: 5;
-    -fx-hgap: 5;
-    -fx-alinement: center;
+    -fx-alignment: center;
 }
 
 .hbox{
-    -fx-alinement: center;
+    -fx-alignment: center;
     -fx-background-color: black;
-    -fx-padding: 5;
+    -fx-padding: 5 5 5 5;
     -fx-spacing: 5;
 }
 
 .button{
     -fx-background-color: red;
     -fx-text-fill: white;
-    -fx-pref-width: 30;
-    -fx-pref-height: 30;
+    -fx-pref-width: 1000;
+    -fx-pref-height: 1000;
+    -fx-font: 20 Tahoma;
 }
 
 .textbox{
     -fx-background-color: white;
     -fx-text-fill: black;
+    -fx-font: 50 Tahoma;
 }

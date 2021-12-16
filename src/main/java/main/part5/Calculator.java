@@ -20,6 +20,7 @@ public class Calculator extends Application {
     double ans;
 
     boolean onSecond;
+    boolean isAns;
 
     public Calculator(){
         num1 = 0;
@@ -28,6 +29,7 @@ public class Calculator extends Application {
         op = "";
         ans = 0;
         onSecond = false;
+        isAns = false;
     }
 
     public static void main(String[] args) {
@@ -38,7 +40,7 @@ public class Calculator extends Application {
     public void start(Stage stage) {
 
         VBox root = new VBox();
-        Scene scene = new Scene(root, 400, 600);
+        Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm() );
         root.getStyleClass().add("vbox");
 
@@ -59,7 +61,6 @@ public class Calculator extends Application {
             public void handle(ActionEvent actionEvent) {
                 Button button = (Button) actionEvent.getSource();
                 textField.appendText(button.getText());
-                System.out.println(textField);
             }
         };
 
@@ -88,9 +89,10 @@ public class Calculator extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 num2 = Double.parseDouble(textField.getText());
-                ans = solve(num2, num2, op);
+                ans = solve(num1, num2, op);
                 onSecond = false;
                 textField.setText(Double.toString(ans));
+                System.out.println(num2);
             }
         };
         EventHandler<ActionEvent> dotHandler = new EventHandler<ActionEvent>() {
