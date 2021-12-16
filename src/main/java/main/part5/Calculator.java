@@ -1,15 +1,23 @@
 package main.part5;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.EventListener;
 
 public class Calculator extends Application {
 
@@ -50,6 +58,9 @@ public class Calculator extends Application {
             hBoxes[i].getStyleClass().add("hbox");
             root.getChildren().add(hBoxes[i]);
         }
+        HBox sliderBox = new HBox();
+        sliderBox.getStyleClass().add("hbox");
+        root.getChildren().add(sliderBox);
 
         TextField textField = new TextField();
         textField.setEditable(false);
@@ -67,6 +78,18 @@ public class Calculator extends Application {
                 textField.appendText(button.getText());
             }
         };
+
+        Slider slider = new Slider();
+        slider.setMinWidth(300);
+        slider.setMax(100);
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                textField.setText(observableValue.getValue().toString());
+            }
+        });
+        sliderBox.getChildren().add(slider);
+
 
         Button[] numButtons = new Button[10];
         for(int i = 0; i < 10; i++){
@@ -208,5 +231,4 @@ public class Calculator extends Application {
             default -> 0.0;
         };
     }
-
 }
