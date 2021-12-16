@@ -4,20 +4,18 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.EventListener;
+
 
 public class Calculator extends Application {
 
@@ -46,6 +44,8 @@ public class Calculator extends Application {
 
     @Override
     public void start(Stage stage) {
+
+
 
         VBox root = new VBox();
         Scene scene = new Scene(root, 400, 400);
@@ -85,7 +85,7 @@ public class Calculator extends Application {
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                textField.setText(observableValue.getValue().toString());
+                textField.setText(Integer.toString((int) Math.round((double) observableValue.getValue())));
             }
         });
         sliderBox.getChildren().add(slider);
@@ -104,6 +104,10 @@ public class Calculator extends Application {
         EventHandler<ActionEvent> opButtonHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if(isAns){
+                    textField.setText("");
+                    isAns = false;
+                }
                 Button button = (Button) actionEvent.getSource();
                 num1 = Double.parseDouble(textField.getText());
                 op = button.getText();
@@ -117,6 +121,17 @@ public class Calculator extends Application {
             public void handle(ActionEvent actionEvent) {
                 num2 = Double.parseDouble(textField.getText());
                 ans = solve(num1, num2, op);
+                onSecond = false;
+                isAns = true;
+                textField.setText(Double.toString(ans));
+                System.out.println(num2);
+            }
+        };
+        EventHandler<ActionEvent> sqrtHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                num1 = Double.parseDouble(textField.getText());
+                ans = solve(num1, num2, "sqrt");
                 onSecond = false;
                 isAns = true;
                 textField.setText(Double.toString(ans));
@@ -185,8 +200,7 @@ public class Calculator extends Application {
 
         Button sqrt = new Button();
         sqrt.setText("sqrt");
-        op = "sqrt";
-        sqrt.setOnAction(equalsHandler);
+        sqrt.setOnAction(sqrtHandler);
         ops[7] = sqrt;
 
         Button equals = new Button();
@@ -214,6 +228,118 @@ public class Calculator extends Application {
             ops[i].getStyleClass().add("buttonclass");
         }
 
+        EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(isAns){
+                    textField.setText("");
+                    isAns = false;
+                }
+                switch (keyEvent.getCode()){
+                    case DIGIT0:
+                    case NUMPAD0:
+                        textField.appendText("0");
+                        break;
+                    case DIGIT1:
+                    case NUMPAD1:
+                        textField.appendText("1");
+                        break;
+                    case DIGIT2:
+                    case NUMPAD2:
+                        textField.appendText("2");
+                        break;
+                    case DIGIT3:
+                    case NUMPAD3:
+                        textField.appendText("3");
+                        break;
+                    case DIGIT4:
+                    case NUMPAD4:
+                        textField.appendText("4");
+                        break;
+                    case DIGIT5:
+                    case NUMPAD5:
+                        textField.appendText("5");
+                        break;
+                    case DIGIT6:
+                    case NUMPAD6:
+                        if(keyEvent.isShiftDown()){
+                            num1 = Double.parseDouble(textField.getText());
+                            op = "^";
+                            onSecond = true;
+                            textField.setText("");
+                            System.out.println(num1);
+                        }
+                        else {
+                            textField.appendText("6");
+                        }
+                        break;
+                    case DIGIT7:
+                    case NUMPAD7:
+                        textField.appendText("7");
+                        break;
+                    case DIGIT8:
+                    case NUMPAD8:
+                        if(keyEvent.isShiftDown()){
+                            num1 = Double.parseDouble(textField.getText());
+                            op = "*";
+                            onSecond = true;
+                            textField.setText("");
+                            System.out.println(num1);
+                        }
+                        else {
+                            textField.appendText("8");
+                        }
+                        break;
+                    case DIGIT9:
+                    case NUMPAD9:
+                        textField.appendText("9");
+                        break;
+                    case MINUS:
+                        num1 = Double.parseDouble(textField.getText());
+                        op = "-";
+                        onSecond = true;
+                        textField.setText("");
+                        System.out.println(num1);
+                        break;
+                    case SLASH:
+                        num1 = Double.parseDouble(textField.getText());
+                        op = "/";
+                        onSecond = true;
+                        textField.setText("");
+                        System.out.println(num1);
+                        break;
+                    case PERIOD:
+                        textField.appendText(".");
+                        break;
+                    case EQUALS:
+                        if(keyEvent.isShiftDown()){
+                            num1 = Double.parseDouble(textField.getText());
+                            op = "+";
+                            onSecond = true;
+                            isAns = true;
+                            textField.setText("");
+                            System.out.println(num1);
+                        }
+                        else {
+                            num2 = Double.parseDouble(textField.getText());
+                            ans = solve(num1, num2, op);
+                            onSecond = false;
+                            isAns = true;
+                            textField.setText(Double.toString(ans));
+                            System.out.println(num2);
+                        }
+                        break;
+                    case C:
+                        textField.setText("");
+                    default:
+                        textField.appendText("");
+
+                }
+            }
+        };
+
+        scene.setOnKeyPressed(keyListener);
+        textField.setOnKeyPressed(keyListener);
 
         stage.setScene(scene);
         stage.show();
