@@ -60,6 +60,10 @@ public class Calculator extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Button button = (Button) actionEvent.getSource();
+                if(isAns){
+                    isAns = false;
+                    textField.setText("");
+                }
                 textField.appendText(button.getText());
             }
         };
@@ -91,6 +95,7 @@ public class Calculator extends Application {
                 num2 = Double.parseDouble(textField.getText());
                 ans = solve(num1, num2, op);
                 onSecond = false;
+                isAns = true;
                 textField.setText(Double.toString(ans));
                 System.out.println(num2);
             }
